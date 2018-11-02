@@ -1,0 +1,2 @@
+# TDDM_PRAC1_2
+Exercici 2 TDDM PRAC1
