@@ -1,6 +1,7 @@
 package edu.uoc.drocaf.exercici3app;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,12 +27,11 @@ public class AddBikeSharingActivity extends AppCompatActivity {
 
         Button add_bike = findViewById(R.id.add_bike);
 
-        final String bikeId = bikeIdView.getText().toString();
-        final String bikeDescription = bikeDescriptionView.getText().toString();
-
         add_bike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String bikeId = bikeIdView.getText().toString();
+                String bikeDescription = bikeDescriptionView.getText().toString();
                 Intent intent = new Intent(AddBikeSharingActivity.this, BykeSharingListActivity.class);
                 intent.putExtra("EXTRA_BIKE_ID", bikeId);
                 intent.putExtra("EXTRA_BIKE_DESCRIPTION", bikeDescription);

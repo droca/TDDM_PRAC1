@@ -1,7 +1,9 @@
 package edu.uoc.drocaf.exercici3app;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,9 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import edu.uoc.drocaf.exercici3app.dummy.DummyContent;
-import edu.uoc.drocaf.exercici3app.dummy.DummyContent.DummyItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +28,15 @@ public class ItemFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+
+    private static List<Bike> bikes = new ArrayList<Bike>() {{
+        add(new Bike("Bike1", "First bike"));
+        add(new Bike("Bike2", "Second bike"));
+        add(new Bike("Bike3", "Third bike"));
+        add(new Bike("Bike4", "Fourth bike"));
+        add(new Bike("Bike5", "Fifth bike"));
+        add(new Bike("Bike6", "Sixth bike"));
+    }};
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -71,19 +79,27 @@ public class ItemFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            List<Bike> bikes = new ArrayList<Bike>();
-            bikes.add(new Bike("Bike1", "First bike"));
-            bikes.add(new Bike("Bike2", "Second bike"));
-            bikes.add(new Bike("Bike3", "Third bike"));
-            bikes.add(new Bike("Bike4", "Fourth bike"));
-            bikes.add(new Bike("Bike5", "Fifth bike"));
-            bikes.add(new Bike("Bike6", "Sixth bike"));
-
             recyclerView.setAdapter(new MyItemRecyclerViewAdapter(bikes, mListener));
+
         }
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        View view = getView();
+        if (view instanceof RecyclerView) {
+            if (getActivity().getIntent().getStringExtra("EXTRA_BIKE_ID") != null) {
+                RecyclerView recyclerView = (RecyclerView) view;
+                String bikeId = getActivity().getIntent().getStringExtra("EXTRA_BIKE_ID");
+                String bikeDescription = getActivity().getIntent().getStringExtra("EXTRA_BIKE_DESCRIPTION");
+                bikes.add(new Bike(bikeId, bikeDescription));
+                recyclerView.getAdapter().notifyDataSetChanged();
+            }
+        }
+    }
 
     @Override
     public void onAttach(Context context) {
