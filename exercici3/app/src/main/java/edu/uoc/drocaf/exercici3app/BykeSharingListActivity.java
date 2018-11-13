@@ -1,22 +1,16 @@
 package edu.uoc.drocaf.exercici3app;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
 import android.view.View;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
 
 public class BykeSharingListActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener {
 
-    private List<Bike> mItems;
+    private final static int REQUEST_CODE_1 = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,9 +25,27 @@ public class BykeSharingListActivity extends AppCompatActivity implements ItemFr
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(BykeSharingListActivity.this, AddBikeSharingActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_1);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case REQUEST_CODE_1:
+                if(resultCode == RESULT_OK) {
+                    String bikeId = data.getStringExtra("EXTRA_BIKE_ID");
+                    String bikeDescription = data.getStringExtra("EXTRA_BIKE_DESCRIPTION");
+                    Bike bike = new Bike(bikeId, bikeDescription);
+                    ItemFragment fragment = (ItemFragment) getSupportFragmentManager().findFragmentById(R.id.article_fragment);
+                    fragment.updateBikes(bike);
+                }
+            default:
+                // Do nothing
+        }
     }
 
     @Override

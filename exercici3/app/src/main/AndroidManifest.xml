@@ -29,6 +29,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AddBikeSharingActivity"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_activity_add_bike_sharing" />
     </application>
 

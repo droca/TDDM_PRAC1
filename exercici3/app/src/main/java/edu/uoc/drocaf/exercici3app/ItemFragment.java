@@ -29,7 +29,7 @@ public class ItemFragment extends Fragment {
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
-    private static List<Bike> bikes = new ArrayList<Bike>() {{
+    private List<Bike> bikes = new ArrayList<Bike>() {{
         add(new Bike("Bike1", "First bike"));
         add(new Bike("Bike2", "Second bike"));
         add(new Bike("Bike3", "Third bike"));
@@ -85,19 +85,12 @@ public class ItemFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
+    public void updateBikes(Bike bike){
+        bikes.add(bike);
         View view = getView();
         if (view instanceof RecyclerView) {
-            if (getActivity().getIntent().getStringExtra("EXTRA_BIKE_ID") != null) {
-                RecyclerView recyclerView = (RecyclerView) view;
-                String bikeId = getActivity().getIntent().getStringExtra("EXTRA_BIKE_ID");
-                String bikeDescription = getActivity().getIntent().getStringExtra("EXTRA_BIKE_DESCRIPTION");
-                bikes.add(new Bike(bikeId, bikeDescription));
-                recyclerView.getAdapter().notifyDataSetChanged();
-            }
+            RecyclerView recyclerView = (RecyclerView) getView();
+            recyclerView.getAdapter().notifyDataSetChanged();
         }
     }
 
